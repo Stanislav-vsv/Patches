@@ -1,0 +1,1690 @@
+<workflow-app name="wf_ctl_dwh_daily_dictionaries" xmlns="uri:oozie:workflow:0.5">
+  <parameters>
+        <property>
+            <name>wf_ctl_name</name>
+			<value>wf_ctl_dwh_daily_dictionaries</value>
+        </property>
+  </parameters>
+	<start to="fork_all"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+	
+	<fork name="fork_all">
+		<path start="wf_dwh_dictionary_sdim" /> <!--Stream Count: 1 -->
+		<path start="wf_dwh_module_ldim" /> <!--Stream Count: 1 -->
+        <path start="wf_dwh_product_hdim" /> <!--Stream Count: 1 -->
+        <path start="wf_dwh_salesplace_hdim" /> <!--Stream Count: 1 -->
+        <path start="wf_dwh_staffing_hdim" /> <!--Stream Count: 1 -->
+		<path start="wf_dwh_clientsegment_hdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_encashmentpoint_hdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_encashmentservice_hdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_channel_hdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_operationkind_sdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_operationtype_sdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_voc_sdim" /><!--Stream Count: 3-->
+        <path start="wf_dwh_vocdialogsheme_sdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_vocstatus_sdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_vocstatustype_sdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_voctouchpoint_sdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_client_hdim" /><!--Stream Count: 10-->
+		<path start="wf_dwh_division_hdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_clientcategory_ldim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_prdcalendar_sdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_claim_hdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_claimproduct_hdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_paydocdirection_lov" /><!--Stream Count: 1-->
+		<path start="wf_dwh_vocdialogstep_sdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_certificateconfdoc_hdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_certificatefxctrlop_hdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_certificatesubtp_sdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_curoperkindpaydocdir_vhist" /><!--Stream Count: 1-->
+		<path start="wf_dwh_fxctrlclntcont_hdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_fxctrlclntcontkind_sdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_paydoccuroperkind_ldim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_procappfilekind_sdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_tranpspt_hdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_tranpspt2user_vhist" /><!--Stream Count: 1-->
+		<path start="wf_dwh_deal_hdim" /><!--Stream Count: 4-->
+		<path start="wf_dwh_dealloan_hdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_offerservicestatus_sdim" /><!--Stream Count: 1-->
+		<path start="wf_dwh_clientblock_vhist" /><!--Stream Count: 1-->
+		<path start="wf_dwh_offerprops_sdim" /><!--Stream Count: 1-->
+        <path start="wf_dwh_sparkaddresstype_sdim" />
+        <path start="wf_dwh_sparkcompany_sdim" />
+        <path start="wf_dwh_sparkcompany2okved_vhist" />
+        <path start="wf_dwh_sparkcompanyaddinfo_vhist" />
+        <path start="wf_dwh_sparkcompanyaddress_vhist" />
+        <path start="wf_dwh_sparkcompanylicense_vhist" />
+        <path start="wf_dwh_sparkconsolidatedind_sdim" />
+        <path start="wf_dwh_sparkcosize_sdim" />
+        <path start="wf_dwh_sparkduediligense_sdim" />
+        <path start="wf_dwh_sparkfailurescore_sdim" />
+        <path start="wf_dwh_sparkfinancebaltype_sdim" />
+        <path start="wf_dwh_sparkfinrepform_sdim" />
+        <path start="wf_dwh_sparkgovermenttype_sdim" />
+        <path start="wf_dwh_sparklicensekind_sdim" />
+        <path start="wf_dwh_sparklicensestatus_sdim" />
+        <path start="wf_dwh_sparklisttype_sdim" />
+        <path start="wf_dwh_sparkmessagesource_sdim" />
+        <path start="wf_dwh_sparkmessagetype_sdim" />
+        <path start="wf_dwh_sparkokato_sdim" />
+        <path start="wf_dwh_sparkokfs_sdim" />
+        <path start="wf_dwh_sparkokogu_sdim" />
+        <path start="wf_dwh_sparkokopf_sdim" />
+        <path start="wf_dwh_sparkokved_sdim" />
+        <path start="wf_dwh_sparkokvedtype_sdim" />
+        <path start="wf_dwh_sparkpaymentindex_sdim" />
+        <path start="wf_dwh_sparkphone_vhist" />
+        <path start="wf_dwh_sparkphonestatus_sdim" />
+        <path start="wf_dwh_sparkphonetype_sdim" />
+        <path start="wf_dwh_sparkregion_sdim" />
+        <path start="wf_dwh_sparksamecompany_vhist" />
+        <path start="wf_dwh_sparkstatarbitration_sagg" />
+        <path start="wf_dwh_sparkstatcontract_sagg" />
+        <path start="wf_dwh_sparkstatus_sdim" />
+        <path start="wf_dwh_sparkstructuresource_sdim" />
+        <path start="wf_dwh_sparkstructuretype_sdim" />
+        <path start="wf_dwh_sparkworkersrange_sdim" />
+        <path start="wf_dwh_accountcloseinitkind_sdim" />
+        <path start="wf_dwh_accountclosereason_sdim" />
+        <path start="wf_dwh_egripindenterpreneur_hdim" />
+        <path start="wf_dwh_egripkind_sdim" />
+        <path start="wf_dwh_egripokved_sdim" />
+        <path start="wf_dwh_egrippensfundterr_sdim" />
+        <path start="wf_dwh_egripsocins_sdim" />
+        <path start="wf_dwh_egripstatus_sdim" />
+        <path start="wf_dwh_egriptaxauthority_sdim" />
+        <path start="wf_dwh_tariffobject_ldim" />
+		<path start="wf_dwh_clntmobiledeviceinfo_vhist" />
+		<path start="wf_dwh_mobiledvc2acqpmnttp_vhist"/>
+		
+		<path start="wf_dwh_clientblacklistreason_ldim"/>
+		<path start="wf_dwh_dealdeposit_hdim"/>
+		<path start="wf_dwh_loanappltype_sdim"/>
+		<path start="wf_dwh_tscacqorderparam_sdim"/>
+		<path start="wf_dwh_borrowerlimitstate_hdim"/>
+		<path start="wf_dwh_dealkind_ldim"/>
+		<path start="wf_dwh_dealst2brwlimitst_vhist"/>
+		<path start="wf_dwh_srcdealstatus_sdim"/>
+		<path start="wf_dwh_dealclass_hdim"/>
+		<path start="wf_dwh_dealcreditline_hdim"/>
+		<path start="wf_dwh_dealguarantee_hdim"/>
+		<path start="wf_dwh_dealloanovractionj_htran"/>
+		<path start="wf_dwh_dealoverdraft_hdim"/>
+		<path start="wf_dwh_dealstatus_lov"/>
+		<path start="wf_dwh_dealtable_lov"/>
+		<path start="wf_dwh_dealtype_lov"/>
+		<path start="wf_dwh_ratetype_lov"/>
+		<path start="wf_dwh_accountclause_hdim"/>
+		
+		<!--datalake 788-->
+		<path start="wf_dwh_clientsegment_vhist"/>
+		<path start="wf_dwh_clientpaper2client_vhist"/>
+		<path start="wf_dwh_clientpaper_hdim"/>
+		<path start="wf_dwh_c2clink_vhist"/>
+		<path start="wf_dwh_birth_xdim"/>
+		<path start="wf_dwh_client2smbsubjclass_vhist"/>
+		<path start="wf_dwh_clientlimit_vhist"/>
+		<path start="wf_dwh_borrowerlimitparam_vhist"/>
+		<path start="wf_dwh_borrowerlimit_hdim"/>
+		<path start="wf_dwh_client2limitgroup_vhist"/>
+		<path start="wf_dwh_limitgroup_hdim"/>
+		<path start="wf_dwh_limitgroup2industry_vhist"/>
+		<path start="wf_dwh_okonh_hdim"/>
+		<path start="wf_dwh_subhldmember_hdim"/>
+		<path start="wf_dwh_industry_hdim"/>
+		<path start="wf_dwh_authority_hdim"/>
+		<path start="wf_dwh_clientrole_grdef"/>
+		<path start="wf_dwh_clientprops_sdim"/>
+		<path start="wf_dwh_limitkind_ldim"/>
+		<path start="wf_dwh_holding_hdim"/>
+		<path start="wf_dwh_clientrole_group"/>
+		<path start="wf_dwh_limittype_ldim"/>
+		<path start="wf_dwh_borrowerclass_hdim"/>
+		<path start="wf_dwh_clientrole_lov"/>
+		<path start="wf_dwh_grouplimit_lov"/>
+		<path start="wf_dwh_c2clinktype_lov"/>
+		<path start="wf_dwh_clientlimittype_ldim"/>
+		<path start="wf_dwh_smbsubjclass_sdim"/>
+		<path start="wf_dwh_companygroup_lov"/>
+		<path start="wf_dwh_overduepayment_lov"/>
+		<path start="wf_dwh_comisssharemethod_ldim"/>
+
+		<path start="wf_dwh_accountgroup_ldim"/>
+		<path start="wf_dwh_accountkind_lov"/>
+		<path start="wf_dwh_address_hdim"/>
+		<path start="wf_dwh_addrlevel_lov"/>
+		<path start="wf_dwh_addrlevelsubtype_sdim"/>
+		<path start="wf_dwh_addrpostcode_hdim"/>
+		<path start="wf_dwh_addrref_hdim"/>
+		<path start="wf_dwh_adjreporttype_lov"/>
+		<path start="wf_dwh_analysisgrp_sdim"/>
+		<path start="wf_dwh_analysisgrptype_sdim"/>
+		<path start="wf_dwh_block_hdim"/>
+		<path start="wf_dwh_deal2accttype_lov"/>
+		<path start="wf_dwh_deal2deal_vhist"/>
+		<path start="wf_dwh_deal2dealclass_vhist"/>
+		<path start="wf_dwh_deal2dealtype_lov"/>
+		<path start="wf_dwh_dealaccountcontract_hdim"/>
+		<path start="wf_dwh_dealopertype_sdim"/>
+		<path start="wf_dwh_divisiontype_grdef"/>
+		<path start="wf_dwh_divisiontype_lov"/>
+		<path start="wf_dwh_gl2account_hdim"/>
+		<path start="wf_dwh_maturitytype_ldim"/>
+		<path start="wf_dwh_product2productgroup_vhist"/>
+		<path start="wf_dwh_productgroup_hdim"/>
+		<path start="wf_dwh_productgrouptype_hdim"/>
+		<path start="wf_dwh_profitcenter_ldim"/>
+		<path start="wf_dwh_riskgroupcategory_lov"/>
+		<path start="wf_dwh_salesplacetype_lov"/>
+		
+		<!--datalake 805-->
+		<path start="wf_dwh_dealfactorgen_hdim"/>
+		<path start="wf_dwh_dealfactoring_hdim"/>
+		<path start="wf_dwh_factoringrate_vhist"/>
+		<path start="wf_dwh_factorpayment_hdim"/>
+		<path start="wf_dwh_factorpaymentkind_ldim"/>
+		<path start="wf_dwh_factortrantype_ldim"/>
+		<path start="wf_dwh_fundingdelay_vhist"/>
+		<path start="wf_dwh_paymenttype_lov"/>
+		<path start="wf_dwh_rating_hdim"/>
+		<path start="wf_dwh_ratingtype_ldim"/>
+			
+	</fork>
+	<action name="wf_dwh_accountgroup_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_accountgroup_ldim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_accountkind_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_accountkind_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_address_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_address_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_addrlevel_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_addrlevel_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_addrlevelsubtype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_addrlevelsubtype_sdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_addrpostcode_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_addrpostcode_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_addrref_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_addrref_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_adjreporttype_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_adjreporttype_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_analysisgrp_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_analysisgrp_sdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_analysisgrptype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_analysisgrptype_sdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_block_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_block_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_deal2accttype_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_deal2accttype_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_deal2deal_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_deal2deal_vhist</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_deal2dealclass_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_deal2dealclass_vhist</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_deal2dealtype_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_deal2dealtype_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealaccountcontract_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealaccountcontract_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealopertype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealopertype_sdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_divisiontype_grdef">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_divisiontype_grdef</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_divisiontype_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_divisiontype_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_gl2account_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_gl2account_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_maturitytype_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_maturitytype_ldim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_product2productgroup_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_product2productgroup_vhist</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_productgroup_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_productgroup_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_productgrouptype_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_productgrouptype_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_profitcenter_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_profitcenter_ldim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_riskgroupcategory_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_riskgroupcategory_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_salesplacetype_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_salesplacetype_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealclass_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealclass_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealcreditline_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealcreditline_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealguarantee_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealguarantee_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealloanovractionj_htran">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealloanovractionj_htran</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealoverdraft_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealoverdraft_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealstatus_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealstatus_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealtable_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealtable_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealtype_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealtype_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_ratetype_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_ratetype_lov</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	
+	<action name="wf_dwh_accountclause_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_accountclause_hdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	
+	<action name="wf_dwh_tscacqorderparam_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_tscacqorderparam_sdim</app-path>
+				<propagate-configuration/>
+			</sub-workflow>
+			<ok to="join_all"/>
+			<error to="join_all"/>
+	</action>
+	<action name="wf_dwh_borrowerlimitstate_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_borrowerlimitstate_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealkind_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealkind_ldim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dealst2brwlimitst_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealst2brwlimitst_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_srcdealstatus_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_srcdealstatus_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_dwh_loanappltype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_loanappltype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_dwh_dealdeposit_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealdeposit_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_clientblacklistreason_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_clientblacklistreason_ldim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_mobiledvc2acqpmnttp_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_mobiledvc2acqpmnttp_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_clntmobiledeviceinfo_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_clntmobiledeviceinfo_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	
+	<action name="wf_dwh_offerprops_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_offerprops_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+    <action name="wf_dwh_offerservicestatus_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_offerservicestatus_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_dwh_clientblock_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_clientblock_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_dwh_dealloan_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dealloan_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+
+<action name="wf_dwh_deal_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_deal_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>	
+
+	<action name="wf_dwh_certificateconfdoc_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_certificateconfdoc_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_certificatefxctrlop_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_certificatefxctrlop_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_certificatesubtp_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_certificatesubtp_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_curoperkindpaydocdir_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_curoperkindpaydocdir_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_fxctrlclntcont_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_fxctrlclntcont_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_fxctrlclntcontkind_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_fxctrlclntcontkind_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_paydoccuroperkind_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_paydoccuroperkind_ldim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_procappfilekind_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_procappfilekind_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_tranpspt_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_tranpspt_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_tranpspt2user_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_tranpspt2user_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	
+	<action name="wf_dwh_vocdialogstep_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_vocdialogstep_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	<action name="wf_dwh_dictionary_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_dictionary_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>	
+	<action name="wf_dwh_module_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_module_ldim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+    <action name="wf_dwh_product_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_product_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_salesplace_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_salesplace_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_staffing_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_staffing_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+	
+	<action name="wf_dwh_clientsegment_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_clientsegment_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>	
+	<action name="wf_dwh_encashmentpoint_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_encashmentpoint_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>	
+	<action name="wf_dwh_encashmentservice_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_encashmentservice_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+	
+    <action name="wf_dwh_channel_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_channel_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_operationkind_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_operationkind_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_operationtype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_operationtype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_voc_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_voc_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_vocdialogsheme_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_vocdialogsheme_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_vocstatus_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_vocstatus_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_vocstatustype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_vocstatustype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_voctouchpoint_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_voctouchpoint_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+	
+    <action name="wf_dwh_client_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_client_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+	
+    <action name="wf_dwh_division_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_division_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_clientcategory_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_clientcategory_ldim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_prdcalendar_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_prdcalendar_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_claim_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_claim_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_claimproduct_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_claimproduct_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+    <action name="wf_dwh_paydocdirection_lov">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_paydocdirection_lov</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+        <action name="wf_dwh_sparkaddresstype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkaddresstype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkcompany_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkcompany_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkcompany2okved_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkcompany2okved_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkcompanyaddinfo_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkcompanyaddinfo_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkcompanyaddress_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkcompanyaddress_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkcompanylicense_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkcompanylicense_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkconsolidatedind_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkconsolidatedind_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkcosize_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkcosize_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkduediligense_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkduediligense_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkfailurescore_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkfailurescore_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkfinancebaltype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkfinancebaltype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkfinrepform_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkfinrepform_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkgovermenttype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkgovermenttype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparklicensekind_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparklicensekind_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparklicensestatus_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparklicensestatus_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparklisttype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparklisttype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkmessagesource_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkmessagesource_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkmessagetype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkmessagetype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkokato_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkokato_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkokfs_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkokfs_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkokogu_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkokogu_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkokopf_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkokopf_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkokved_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkokved_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkokvedtype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkokvedtype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkpaymentindex_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkpaymentindex_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkphone_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkphone_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkphonestatus_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkphonestatus_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkphonetype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkphonetype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkregion_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkregion_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparksamecompany_vhist">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparksamecompany_vhist</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkstatarbitration_sagg">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkstatarbitration_sagg</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkstatcontract_sagg">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkstatcontract_sagg</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkstatus_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkstatus_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkstructuresource_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkstructuresource_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkstructuretype_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkstructuretype_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_sparkworkersrange_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_sparkworkersrange_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_accountcloseinitkind_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_accountcloseinitkind_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_accountclosereason_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_accountclosereason_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_egripindenterpreneur_hdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_egripindenterpreneur_hdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_egripkind_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_egripkind_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_egripokved_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_egripokved_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_egrippensfundterr_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_egrippensfundterr_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_egripsocins_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_egripsocins_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_egripstatus_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_egripstatus_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_egriptaxauthority_sdim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_egriptaxauthority_sdim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+
+    <action name="wf_dwh_tariffobject_ldim">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_dwh_tariffobject_ldim</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+    </action>
+	
+	<!-- DATALAKE-788 -->
+	<action name="wf_dwh_clientsegment_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientsegment_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_clientpaper2client_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientpaper2client_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_clientpaper_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientpaper_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_c2clink_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_c2clink_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_birth_xdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_birth_xdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_client2smbsubjclass_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_client2smbsubjclass_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_clientlimit_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientlimit_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_borrowerlimitparam_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_borrowerlimitparam_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_borrowerlimit_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_borrowerlimit_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_client2limitgroup_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_client2limitgroup_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_limitgroup_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_limitgroup_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_limitgroup2industry_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_limitgroup2industry_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_okonh_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_okonh_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_subhldmember_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_subhldmember_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_industry_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_industry_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_authority_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_authority_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_clientrole_grdef">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientrole_grdef</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_clientprops_sdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientprops_sdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_limitkind_ldim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_limitkind_ldim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_holding_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_holding_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_clientrole_group">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientrole_group</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_limittype_ldim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_limittype_ldim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_borrowerclass_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_borrowerclass_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_clientrole_lov">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientrole_lov</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_grouplimit_lov">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_grouplimit_lov</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_c2clinktype_lov">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_c2clinktype_lov</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_clientlimittype_ldim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_clientlimittype_ldim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_smbsubjclass_sdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_smbsubjclass_sdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_companygroup_lov">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_companygroup_lov</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_overduepayment_lov">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_overduepayment_lov</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+
+	<action name="wf_dwh_comisssharemethod_ldim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_comisssharemethod_ldim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="Kill"/>
+	</action>
+	
+	<!-- DATALAKE-805 -->
+	<action name="wf_dwh_dealfactorgen_hdim">
+	    <sub-workflow>
+	    	<app-path>${nameNode}${wf_atom_path}/wf_dwh_dealfactorgen_hdim</app-path>
+	    	  <propagate-configuration/>
+	    </sub-workflow>
+	    <ok to="join_all"/>
+	    <error to="join_all"/>
+    </action>
+
+	<action name="wf_dwh_dealfactoring_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_dealfactoring_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+	
+	<action name="wf_dwh_factoringrate_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_factoringrate_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+
+	<action name="wf_dwh_factorpayment_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_factorpayment_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+
+	<action name="wf_dwh_factorpaymentkind_ldim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_factorpaymentkind_ldim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+
+	<action name="wf_dwh_factortrantype_ldim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_factortrantype_ldim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+
+	<action name="wf_dwh_fundingdelay_vhist">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_fundingdelay_vhist</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+
+	<action name="wf_dwh_paymenttype_lov">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_paymenttype_lov</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+
+	<action name="wf_dwh_rating_hdim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_rating_hdim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+
+	<action name="wf_dwh_ratingtype_ldim">
+		<sub-workflow>
+			<app-path>${nameNode}${wf_atom_path}/wf_dwh_ratingtype_ldim</app-path>
+			  <propagate-configuration/>
+		</sub-workflow>
+		<ok to="join_all"/>
+		<error to="join_all"/>
+	</action>
+	
+	<join name="join_all" to="End"/>
+	
+    <end name="End"/>
+</workflow-app>

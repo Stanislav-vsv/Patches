@@ -1,0 +1,23 @@
+<workflow-app name="wf_ctl_amobile_deriveddata_daily" xmlns="uri:oozie:workflow:0.5">
+  <parameters>
+        <property>
+            <name>wf_ctl_name</name>
+			<value>wf_ctl_amobile_deriveddata_daily</value>
+        </property>
+  </parameters>
+    <start to="wf_deriveddata_jmblogin"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+	
+	<action name="wf_deriveddata_jmblogin">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_deriveddata_jmblogin</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="End"/>
+        <error to="End"/>
+    </action>
+	
+    <end name="End"/>
+</workflow-app>

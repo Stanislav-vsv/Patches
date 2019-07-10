@@ -1,0 +1,92 @@
+<workflow-app name="wf_dwh_fundingdelay_vhist" xmlns="uri:oozie:workflow:0.5">
+  <parameters>
+        <property>
+            <name>wf_reg_name</name>
+        </property>
+        <property>
+            <name>wf_ctl_name</name>
+        </property>
+  </parameters>
+  <credentials>
+    <credential name="hive2" type="hive2">
+      <property>
+        <name>hive2.jdbc.url</name>
+        <value>${hive2_jdbc_url}</value>
+      </property>
+      <property>
+        <name>hive2.server.principal</name>
+        <value>${hive2_server_principal}</value>
+      </property>
+    </credential>
+  </credentials>
+    <start to="atom-header-fundingdelay_vhist"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+	    <action name="atom-header-fundingdelay_vhist">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>ru.alfa.bi.hdp.orchestration.AtomHeader</main-class>
+            <java-opts>-DATOM_NAME=wf_dwh_fundingdelay_vhist -DCTL=${wf_ctl_name} -DREG=${wf_reg_name} -DDB_CONNECTION=${oracle_jdbc_url} -DDB_USER=${oracle_jdbc_user} -DDB_PASSWORD=${oracle_jdbc_password} -DCURRENT_DAY=${current_day}</java-opts>
+            <file>/user/${user_name}/libs/generator-1.0-SNAPSHOT-jar-with-dependencies.jar#generator-1.0-SNAPSHOT-jar-with-dependencies.jar</file>
+			<file>/user/${user_name}/libs/ojdbc6.jar#ojdbc6.jar</file>
+        </java>
+        <ok to="sqoop-fundingdelay_vhist"/>
+        <error to="Kill"/>
+    </action>
+    <action name="sqoop-fundingdelay_vhist">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+              <arg>import</arg>
+              <arg>--connect</arg>
+              <arg>${connection_string}</arg>
+              <arg>--username</arg>
+              <arg>${ORA_USER}</arg>
+              <arg>--password</arg>
+              <arg>${ORA_PASSWORD}</arg>
+              <arg>--compression-codec</arg>
+              <arg>org.apache.hadoop.io.compress.SnappyCodec</arg>
+              <arg>--as-parquetfile</arg>
+              <arg>--delete-target-dir</arg>
+              <arg>--target-dir</arg>
+              <arg>${PATH_TO_TMP}/fundingdelay_vhist_${TMP_TABLE_TYPE}</arg>
+              <arg>--query</arg>
+              <arg>select XK, TK, to_char(EFFECTIVE_FROM, 'yyyy-MM-dd') as EFFECTIVE_FROM, to_char(EFFECTIVE_TO, 'yyyy-MM-dd') as EFFECTIVE_TO, DEAL_UK, CLIENT_DEBTOR_UK, FUNDING_DELAY_DAYS, DELETED_FLAG, DWSCMIX, to_char(AS_OF_DAY, 'yyyy-MM-dd HH24:MI:SS') as AS_OF_DAY, JOB_INSERT, JOB_UPDATE, to_char(VALIDFROM, 'yyyy-MM-dd') as VALIDFROM, to_char(VALIDTO, 'yyyy-MM-dd') as VALIDTO from DWH.FUNDINGDELAY_VHIST where $CONDITIONS</arg>
+              <arg>-m</arg>
+              <arg>1</arg>
+              <arg>--map-column-java</arg>
+			  <arg>XK=Double,DEAL_UK=Double,CLIENT_DEBTOR_UK=Double,FUNDING_DELAY_DAYS=Double,DWSCMIX=Double,JOB_INSERT=Double,JOB_UPDATE=Double</arg>
+        </sqoop>
+        <ok to="hive2-fundingdelay_vhist"/>
+        <error to="Kill"/>
+    </action>
+    <action name="hive2-fundingdelay_vhist" cred="hive2">
+        <hive2 xmlns="uri:oozie:hive2-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <jdbc-url>${hive2_jdbc_url}</jdbc-url>
+            <script>/user/${user_name}/scripts/load_data_inpath_no_part.hql</script>
+              <param>DATABASE=${DATABASE}</param>
+              <param>TABLE_NAME=fundingdelay_vhist</param>
+              <param>PATH_TO_TMP=${PATH_TO_TMP}</param>
+              <param>TMP_TABLE_TYPE=${TMP_TABLE_TYPE}</param>
+        </hive2>
+        <ok to="atom-tail-fundingdelay_vhist"/>
+        <error to="Kill"/>
+    </action>
+	<action name="atom-tail-fundingdelay_vhist">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>ru.alfa.bi.hdp.orchestration.AtomTail</main-class>
+            <java-opts>-DATOM_NAME=wf_dwh_fundingdelay_vhist -DDB_CONNECTION=${oracle_jdbc_url} -DDB_USER=${oracle_jdbc_user} -DDB_PASSWORD=${oracle_jdbc_password} -DCURRENT_DAY=${current_day}</java-opts>
+            <file>/user/${user_name}/libs/generator-1.0-SNAPSHOT-jar-with-dependencies.jar#generator-1.0-SNAPSHOT-jar-with-dependencies.jar</file>
+            <file>/user/${user_name}/libs/ojdbc6.jar#ojdbc6.jar</file>
+        </java>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+    <end name="End"/>
+</workflow-app>

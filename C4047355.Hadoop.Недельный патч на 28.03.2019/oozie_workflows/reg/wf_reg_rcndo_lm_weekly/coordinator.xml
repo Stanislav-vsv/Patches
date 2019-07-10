@@ -1,0 +1,38 @@
+<coordinator-app name="crd_reg_rcndo_lm_weekly"
+         frequency="${coord:days(1)}"
+         start="${coord_start_time}"
+         end="${coord_end_time}"
+         timezone="GMT+03:00"
+         xmlns="uri:oozie:coordinator:0.4">
+  <action>
+    <workflow>
+      <app-path>${workflow_application_path}</app-path>
+      <configuration>
+		<property>
+          <name>LOAD_WEEK_DAY</name>
+          <value>${coord:formatTime(coord:nominalTime(), 'EEE')}</value>
+        </property>
+		<property>
+          <name>LOAD_DATE_FROM</name>
+          <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -7, 'DAY'), 'yyyyMMdd')}</value>
+        </property>
+		<property>
+          <name>LOAD_DATE_FROM_2d</name>
+          <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -2, 'DAY'), 'yyyyMMdd')}</value>
+        </property>
+        <property>
+          <name>LOAD_DATE_TO</name>
+          <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), 1, 'DAY'), 'yyyyMMdd')}</value>
+        </property>
+        <property>
+          <name>TMP_TABLE_TYPE</name>
+          <value>${TMP_TABLE_TYPE}</value>
+        </property>
+		<property>
+          <name>current_day</name>
+          <value>${coord:formatTime(coord:nominalTime(), 'dd.MM.yyyy')}</value>
+        </property>
+      </configuration>
+    </workflow>
+  </action>
+</coordinator-app>

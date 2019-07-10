@@ -1,0 +1,103 @@
+<workflow-app name="wf_ctl_lm_daily" xmlns="uri:oozie:workflow:0.5">
+  <parameters>
+        <property>
+            <name>wf_ctl_name</name>
+			<value>wf_ctl_lm_daily</value>
+        </property>
+  </parameters>
+	<start to="fork_all"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+	
+	<fork name="fork_all">
+        <path start="wf_lm_lm1_dwh_whftdealdraftandother" />
+		<path start="wf_lm_lm1_rlobjectabs" />
+		<path start="wf_lm_lm1_vdrabs" />
+		
+		<path start="wf_lm_lm1_ftdeal" />
+		<path start="wf_lm_lm1_ftdealstate" />
+		<path start="wf_lm_lm1_ftencashmentspot" />
+		<path start="wf_lm_lm1_rldealencashmentspot" />
+		
+		<!-- DATALAKE-805 -->
+		<path start="wf_lm_lm1_dwh_whrlrequestabs" />
+	</fork>	
+	
+	<action name="wf_lm_lm1_ftdeal">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_lm_lm1_ftdeal</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_lm_lm1_ftdealstate">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_lm_lm1_ftdealstate</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_lm_lm1_ftencashmentspot">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_lm_lm1_ftencashmentspot</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_lm_lm1_rldealencashmentspot">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_lm_lm1_rldealencashmentspot</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_lm_lm1_dwh_whftdealdraftandother">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_lm_lm1_dwh_whftdealdraftandother</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_lm_lm1_rlobjectabs">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_lm_lm1_rlobjectabs</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<action name="wf_lm_lm1_vdrabs">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_lm_lm1_vdrabs</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<!-- DATALAKE-805 -->
+	<action name="wf_lm_lm1_dwh_whrlrequestabs">
+        <sub-workflow>
+            <app-path>${nameNode}${wf_atom_path}/wf_lm_lm1_dwh_whrlrequestabs</app-path>
+              <propagate-configuration/>
+        </sub-workflow>
+        <ok to="join_all"/>
+        <error to="join_all"/>
+	</action>
+	
+	<join name="join_all" to="End"/>
+	
+    <end name="End"/>
+</workflow-app>
